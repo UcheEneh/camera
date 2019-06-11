@@ -1,0 +1,175 @@
+How to delete a folder: e.g: 
+	sudo rm -rf /usr/lib/java
+Open bash script to add path
+	sudo gedit ~/.bashrc
+
+
+	SQL
+Install mysql and workbench:
+
+https://www.youtube.com/watch?v=0o0tSaVQfV4
+https://www.youtube.com/watch?v=SJm91cvE_ks
+
+
+	QT
+https://www.youtube.com/watch?v=IZxNXNfwyKA
+
+- ./configure MYSQL_PREFIX=/etc/mysql
+	#Qt will be installed into '/usr/local/Qt-5.12.0'...
+- make
+- sudo make install
+
+
+- copy file 'libqsqlmysql.so' from '/home/uche/Qt/5.12.0/Src/qtbase/plugins/sqldrivers' 
+				to '/home/uche/Qt/5.12.0/gcc_64/plugins/sqldrivers'
+- ldd libqsqlmysql.so
+
+
+	Opencv 
+http://www.codebind.com/cpp-tutorial/install-opencv-ubuntu-cpp/
+http://www.daslhub.org/unlv/wiki/doku.php?id=opencv_install_ubuntu
+
+https://www.learnopencv.com/install-opencv3-on-ubuntu/
+
+Uninstall:
+https://stackoverflow.com/questions/9276169/removing-all-installed-opencv-libs
+
+Downloads: 
+opencv: https://opencv.org/releases.html
+opencv_contrib: https://github.com/opencv/opencv_contrib/releases
+opencv_android: https://sourceforge.net/projects/opencvlibrary/files/opencv-android/
+
+Example:
+https://www.youtube.com/watch?v=2Pboq2LFoaI
+
+Check version:
+- pkg-config --modversion opencv
+
+
+On QT: 
+#Just include this in .pro
+
+- For Desktop application
+#.....................................
+INCLUDEPATH += /usr/local/include/
+LIBS += `pkg-config --libs opencv`
+#.....................................
+
+
+- Android application
+#.............................................................................
+#ANDROID
+OPENCVSDKNATIVE = /home/uche/Downloads/opencv-3.4.3-android-sdk/OpenCV-android-sdk/sdk/native
+
+INCLUDEPATH += $$OPENCVSDKNATIVE/jni/include
+LIBS +=\
+    -L"$$OPENCVSDKNATIVE/3rdparty/libs/armeabi-v7a"\
+    -L"$$OPENCVSDKNATIVE/staticlibs/armeabi-v7a"\
+     -lopencv_imgcodecs -lopencv_imgproc -lopencv_core -llibtiff -llibjpeg-turbo -llibjasper -llibpng -lIlmImf -llibprotobuf -llibwebp -ltbb -lcpufeatures -ltegra_hal
+
+ANDROID_EXTRA_LIBS += $$OPENCVSDKNATIVE/libs/armeabi-v7a/libopencv_java3.so
+#.............................................................................
+
+Help error (Android):
+- https://stackoverflow.com/questions/50408064/how-to-use-link-opencv-3-4-1-in-qt-for-android
+
+
+
+	JAVA
+https://www.youtube.com/watch?v=NZB3Iy7Lve4
+
+
+
+	Android on QT
+http://doc.qt.io/qt-5/androidgs.html
+
+step 1: https://www.youtube.com/watch?v=PU_po2mWwt8
+step 2: For AVD:
+	- Go to android studio sdk manager and install the missing armeabi and x86 images for the different android platdorms 
+	- now go to qt and click add to setup a new environment
+
+To open android studio:
+- cd /Downloads/android-studio/bin 
+- use ./studio.sh
+
+- cd /Downloads/android-sdk/tools/bin
+- or: ./sdkmanager
+
+
+
+
+	PHP
+PHP installed into /etc/php/7.2
+
+
+	Openssl
+Build openssl version OpenSSL 1.0.2k (QT version)
+
+https://www.howtoforge.com/tutorial/how-to-install-openssl-from-source-on-linux/
+Note: using vim: https://www.cyberciti.biz/faq/linux-unix-vim-save-and-quit-command/
+
+ANACONDA OPENSSL LOC: /home/uche/anaconda3/bin
+
+
+
+
+PART 2
+
+PHP:
+
+"conn.php"
+
+<?php
+
+$db_name = "epiz_23054611_info2";
+$mysql_username = "epiz_23054611";
+$mysql_password = "XHjlNpoRPAtDHyY";
+$server_name = "sql202.epizy.com";
+
+$conn = mysqli_connect($server_name, $mysql_username, $mysql_password, $db_name); 
+
+// Check connection
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}
+else {
+	echo "Connected successfully"; 
+}
+
+?>
+
+
+
+
+"index.php"
+
+<?php
+
+require "conn.php";
+
+$user_name = "Keyboard";
+$user_category = "Machine";
+
+//$mysql_qry = "select * from info2;";
+$mysql_qry = "select * from info2 where name like '$user_name' and category like '$user_category';";
+
+$result = mysqli_query($conn, $mysql_qry); 
+
+/*
+if ( $content = mysqli_fetch_array( $result, MYSQL_NUM ) ) {
+    printf( "%d %d\n", $content[0], $content[3] );
+}
+*/
+
+if (mysqli_num_rows($result) > 0) {
+    // output data of each row
+    while($row = mysqli_fetch_assoc($result)) {
+        echo "id: " . $row["id"]. " - Name: " . $row["name"]. " - Category: " . $row["category"].  " - Date: " . $row["date"]. "<br>";
+    }
+} else {
+    echo "0 results";
+}
+  
+mysqli_close($conn);
+
+?>
