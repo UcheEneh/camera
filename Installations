@@ -1,16 +1,3 @@
-How to delete a folder: e.g: 
-	sudo rm -rf /usr/lib/java
-Open bash script to add path
-	sudo gedit ~/.bashrc
-
-
-	SQL
-Install mysql and workbench:
-
-https://www.youtube.com/watch?v=0o0tSaVQfV4
-https://www.youtube.com/watch?v=SJm91cvE_ks
-
-
 	QT
 https://www.youtube.com/watch?v=IZxNXNfwyKA
 
@@ -23,6 +10,13 @@ https://www.youtube.com/watch?v=IZxNXNfwyKA
 - copy file 'libqsqlmysql.so' from '/home/uche/Qt/5.12.0/Src/qtbase/plugins/sqldrivers' 
 				to '/home/uche/Qt/5.12.0/gcc_64/plugins/sqldrivers'
 - ldd libqsqlmysql.so
+
+
+	SQL
+Install mysql and workbench:
+
+https://www.youtube.com/watch?v=0o0tSaVQfV4
+https://www.youtube.com/watch?v=SJm91cvE_ks
 
 
 	Opencv 
@@ -59,7 +53,7 @@ LIBS += `pkg-config --libs opencv`
 - Android application
 #.............................................................................
 #ANDROID
-OPENCVSDKNATIVE = /home/uche/Downloads/opencv-3.4.3-android-sdk/OpenCV-android-sdk/sdk/native
+OPENCVSDKNATIVE = /home/Downloads/opencv-3.4.3-android-sdk/OpenCV-android-sdk/sdk/native
 
 INCLUDEPATH += $$OPENCVSDKNATIVE/jni/include
 LIBS +=\
@@ -96,8 +90,6 @@ To open android studio:
 - or: ./sdkmanager
 
 
-
-
 	PHP
 PHP installed into /etc/php/7.2
 
@@ -109,67 +101,3 @@ https://www.howtoforge.com/tutorial/how-to-install-openssl-from-source-on-linux/
 Note: using vim: https://www.cyberciti.biz/faq/linux-unix-vim-save-and-quit-command/
 
 ANACONDA OPENSSL LOC: /home/uche/anaconda3/bin
-
-
-
-
-PART 2
-
-PHP:
-
-"conn.php"
-
-<?php
-
-$db_name = "epiz_23054611_info2";
-$mysql_username = "epiz_23054611";
-$mysql_password = "XHjlNpoRPAtDHyY";
-$server_name = "sql202.epizy.com";
-
-$conn = mysqli_connect($server_name, $mysql_username, $mysql_password, $db_name); 
-
-// Check connection
-if (!$conn) {
-    die("Connection failed: " . mysqli_connect_error());
-}
-else {
-	echo "Connected successfully"; 
-}
-
-?>
-
-
-
-
-"index.php"
-
-<?php
-
-require "conn.php";
-
-$user_name = "Keyboard";
-$user_category = "Machine";
-
-//$mysql_qry = "select * from info2;";
-$mysql_qry = "select * from info2 where name like '$user_name' and category like '$user_category';";
-
-$result = mysqli_query($conn, $mysql_qry); 
-
-/*
-if ( $content = mysqli_fetch_array( $result, MYSQL_NUM ) ) {
-    printf( "%d %d\n", $content[0], $content[3] );
-}
-*/
-
-if (mysqli_num_rows($result) > 0) {
-    // output data of each row
-    while($row = mysqli_fetch_assoc($result)) {
-        echo "id: " . $row["id"]. " - Name: " . $row["name"]. " - Category: " . $row["category"].  " - Date: " . $row["date"]. "<br>";
-    }
-} else {
-    echo "0 results";
-}
-  
-mysqli_close($conn);
-
-?>
